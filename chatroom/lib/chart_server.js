@@ -42,6 +42,7 @@ function joinRoom(socket,room){
 
 function handleNameChangeAttempts(socket,nickNames,namesUsed){
 	socket.on('nameAttempt',function(name){
+		console.log(name);
 		if(name.indexOf('Guest')==0){
 			socket.emit('nameResult',{
 				success:fasle,
@@ -70,9 +71,13 @@ function handleNameChangeAttempts(socket,nickNames,namesUsed){
 	})
 }
 
-function handleMessageBroadcasting(socket){
+function handleMessageBroadcasting(socket){	
 	socket.on('message',function(message){
-		socket.broadcast.to(currentRoom[socket.id]).emit('message',{
+		console.log(message);
+		console.log(socket.id);
+		console.log(currentRoom[socket.id]);
+		console.log(nickNames[socket.id]);
+		socket.broadcast.to(message.room).emit('message',{
 			text:nickNames[socket.id]+':'+message.text
 		});
 	});
@@ -100,7 +105,7 @@ exports.listen=function(server){
 		//分配昵称
 		guestNumber=assignGuestName(socket,guestNumber,nickNames,namesUsed);
 		joinRoom(socket,'lobby');
-		handleMessageBroadcasting(socket,nickNames);
+		handleMessageBroadcasting(socket);
 		handleNameChangeAttempts(socket,nickNames,namesUsed);
 		handleRoomJoining(socket);
 		socket.on('rooms',function(){
