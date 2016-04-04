@@ -54,10 +54,8 @@ function divSystemContentElement(message) {
 
 function processUserInput(chatApp, socket) {
     var message = $('#send-message').val();
-    console.log(message);
     var systemMessage;
     if (message.charAt(0) == '/') {
-    	alert(message);
         systemMessage = chatApp.processCommand(message);
         if (systemMessage) {
             $('#message').append(divSystemContentElement(systemMessage));

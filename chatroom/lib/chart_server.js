@@ -34,7 +34,7 @@ function joinRoom(socket,room){
     			}
     			usersInRoomSummary+=nickNames[userSocketId];
     		}
-    	}
+    	 }
     	usersInRoomSummary+='.';
     	socket.emit('message',{text:usersInRoomSummary});
     }    
@@ -42,7 +42,6 @@ function joinRoom(socket,room){
 
 function handleNameChangeAttempts(socket,nickNames,namesUsed){
 	socket.on('nameAttempt',function(name){
-		console.log(name);
 		if(name.indexOf('Guest')==0){
 			socket.emit('nameResult',{
 				success:fasle,
@@ -53,6 +52,7 @@ function handleNameChangeAttempts(socket,nickNames,namesUsed){
 				var previousName=nickNames[socket.id];
 				var previousNameIndex=namesUsed.indexOf(previousName);
 				namesUsed.push(name);
+				nickNames[socket.id]=name;
 				delete namesUsed[previousNameIndex];
 				socket.emit('nameResult',{
 					success:true,
@@ -68,8 +68,8 @@ function handleNameChangeAttempts(socket,nickNames,namesUsed){
 				});
 			}
 		}
-	})
-}
+	});
+};
 
 function handleMessageBroadcasting(socket){	
 	socket.on('message',function(message){
