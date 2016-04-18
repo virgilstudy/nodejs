@@ -1,0 +1,8 @@
+{
+	"name":"demo1",
+	"version":"0.0.1",
+	"description":"nodejs demo",
+	"dependencies":{
+		"mime":"~1.2.7"
+	}
+}
